@@ -13,7 +13,6 @@
  *
  * @package    lime
  * @author     Fabien Potencier <fabien.potencier@gmail.com>
- * @version    SVN: $Id: lime.php 29529 2010-05-19 13:41:48Z fabien $
  */
 class lime_test
 {
@@ -170,7 +169,7 @@ class lime_test
   {
     $this->update_stats();
 
-    if ($result = (boolean) $exp)
+    if ($result = (bool) $exp)
     {
       $this->results['stats']['passed'][] = $this->test_nb;
     }
@@ -191,6 +190,27 @@ class lime_test
   }
 
   /**
+   * Compares two values and returns true if they are equal
+   *
+   * @param mixed  $exp1    left value
+   * @param mixed  $exp2    right value
+   * @return bool
+   */
+  private function equals($exp1, $exp2)
+  {
+    if (is_object($exp1) || is_object($exp2)) {
+      return $exp1 === $exp2;
+    } else if (is_float($exp1) && is_float($exp2)) {
+      return abs($exp1 - $exp2) < self::EPSILON;
+    } else if (is_string($exp1) && is_numeric($exp1) || is_string($exp2) && is_numeric($exp2)) {
+      return $exp1 == $exp2;
+    } else if (is_string($exp1) || is_string($exp2)) {
+      return (string) $exp1 === (string) $exp2;
+    }
+    return $exp1 == $exp2;
+  }
+
+  /**
    * Compares two values and passes if they are equal (==)
    *
    * @param mixed  $exp1    left value
@@ -201,18 +221,7 @@ class lime_test
    */
   public function is($exp1, $exp2, $message = '')
   {
-    if (is_object($exp1) || is_object($exp2))
-    {
-      $value = $exp1 === $exp2;
-    }
-    else if (is_float($exp1) && is_float($exp2))
-    {
-      $value = abs($exp1 - $exp2) < self::EPSILON;
-    }
-    else
-    {
-      $value = $exp1 == $exp2;
-    }
+    $value = $this->equals($exp1, $exp2);
 
     if (!$result = $this->ok($value, $message))
     {
@@ -233,9 +242,11 @@ class lime_test
    */
   public function isnt($exp1, $exp2, $message = '')
   {
-    if (!$result = $this->ok($exp1 != $exp2, $message))
+    $value = $this->equals($exp1, $exp2);
+
+    if (!$result = $this->ok(!$value, $message))
     {
-      $this->set_last_test_errors(array(sprintf("      %s", var_export($exp2, true)), '          ne', sprintf("      %s", var_export($exp2, true))));
+      $this->set_last_test_errors(array(sprintf("      %s", var_export($exp1, true)), '          ne', sprintf("      %s", var_export($exp2, true))));
     }
 
     return $result;
@@ -508,11 +519,11 @@ class lime_test
   {
     $this->output->error($message, $file, $line, $traces);
 
-  	$this->results['stats']['errors'][] = array(
-  	  'message' => $message,
-  	  'file' => $file,
-  	  'line' => $line,
-  	);
+    $this->results['stats']['errors'][] = array(
+      'message' => $message,
+      'file' => $file,
+      'line' => $line,
+    );
   }
 
   protected function update_stats()
@@ -541,7 +552,8 @@ class lime_test
     $t = array_reverse($traces);
     foreach ($t as $trace)
     {
-      if (isset($trace['object']) && $this->is_test_object($trace['object']))
+      // In internal calls, like error_handle, 'file' will be missing
+      if (isset($trace['object']) && $this->is_test_object($trace['object']) && isset($trace['file']))
       {
         return array($trace['file'], $trace['line']);
       }
@@ -552,7 +564,7 @@ class lime_test
     return array($traces[$last]['file'], $traces[$last]['line']);
   }
 
-  public function handle_error($code, $message, $file, $line, $context)
+  public function handle_error($code, $message, $file, $line, $context = null)
   {
     if (!$this->options['error_reporting'] || ($code & error_reporting()) == 0)
     {
@@ -575,7 +587,11 @@ class lime_test
     $this->error($type.': '.$message, $file, $line, $trace);
   }
 
-  public function handle_exception(Exception $exception)
+  /**
+   * @param Throwable|Exception $exception
+   * @return bool
+   */
+  public function handle_exception($exception)
   {
     $this->error(get_class($exception).': '.$exception->getMessage(), $exception->getFile(), $exception->getLine(), $exception->getTrace());
 
@@ -1086,7 +1102,10 @@ EOF
 
             $this->output->comment(sprintf('  at %s line %s', $this->get_relative_file($testsuite['tests'][$testcase]['file']).$this->extension, $testsuite['tests'][$testcase]['line']));
             $this->output->info('  '.$testsuite['tests'][$testcase]['message']);
-            $this->output->echoln($testsuite['tests'][$testcase]['error'], null, false);
+            if (isset($testsuite['tests'][$testcase]['error']))
+            {
+              $this->output->echoln($testsuite['tests'][$testcase]['error'], null, false);
+            }
           }
         }
       }

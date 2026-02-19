@@ -1,6 +1,163 @@
 CHANGELOG
 =========
 
+xx/xx/xxxx: Version 1.5.xx
+--------------------------
+
+26/12/2025: Version 1.5.24
+--------------------------
+* Drop use of E_STRICT by @mentalstring in #391
+* Use php.ini-development in CI pipelines by @mentalstring in #392
+* Add PHP 8.5 support by @mentalstring in #393
+
+18/09/2025: Version 1.5.23
+--------------------------
+* Add HTTP status code 308 "Permanent Redirect" by @wutsch0 in #388
+* Add support for SameSite cookie attribute by @mentalstring in #387
+
+05/05/2025: Version 1.5.22
+--------------------------
+* Add support for PHP 8.4 by @thirsch in #382
+* Fix stack trace code preview in debug screen by @sebasbit in #375
+* Fix deprecation: Optional parameter declared before required parameter is implicitly treated as a required parameter by @thirsch in #365
+
+19/12/2024: Version 1.5.21
+--------------------------
+* Fix inclusion of base test files in composer package (#379) by @vworldat in #380
+
+29/11/2024: Version 1.5.20
+--------------------------
+* Update php-cs-fixer to v3.52 by @thePanz in #340
+* Remove sfXCacheCache as the extension is not available on PHP v7.4 anymore by @thePanz in #344
+* Remove sfEAcceleratorCache as the extension is not available on PHP v7.4 anymore by @thePanz in #344
+* ⚠️ [BC-Break] Remove sfAPCCache as it uses the `apc` extension, which is not available on PHP v7.4 anymore by @thePanz in #344. Use `sfAPCuCache` class instead, available from Symfony1 v1.5.16
+* Fix phpstan errors by @thePanz in #345
+* Fix return statement missing stan error in widget by @connorhu in #349
+* Fix return statement missing stan error in validator by @connorhu in #352
+* Fix return statement missing stan error in view by @connorhu in #350
+* Fix return statement missing stan errors in task by @connorhu in #353
+* Fix return statement missing stan error in util by @connorhu in #351
+* Fix changelog typo by @connorhu in #361
+* Update the SYMFONY_VERSION constant to the latest release number by @verfriemelt-dot-org in #355
+* Add test folder to gitattribute by @connorhu in #368
+* Fix incorrect type-hint for parameter of type class-string by @thirsch in #370
+
+19/03/2024: Version 1.5.19
+--------------------------
+* Sync changelog with latest releases by @thePanz in #337
+* Remove unsupported/legacy code by @thePanz in #336
+* Update php cs fixer by @thePanz in #338
+* Add type checking for deserialized data by @darkpills @thePanz @thirsch
+
+28/02/2024: Version 1.5.18
+--------------------------
+
+* Set min versions of swiftmailer to 5.4.13 and 6.2.5 and updated swiftmailer submodule by @thirsch in #331
+
+23/02/2024: Version 1.5.17
+--------------------------
+
+* Update min PHP requirement to v7.4 or v8.1 by @thePanz in #325
+* Updated gh workflow to use latest actions by @thirsch in #330
+* Backported display_errors-handling to sf1 by @thirsch in #328
+
+15/02/2024: Version 1.5.16
+--------------------------
+
+* Fix(deprecations) Fix deprecations in sfMessageSource_Aggregate, by @thePanz in #277
+* Add(linting) Add code linting to GitHub workflow, use php-cs-fixer by @thePanz in #283
+* Add(gitattributes) Add .gitattributes to repository by @thePanz in #287
+* fix: avoid creating dynamic property $options by @vimar in #290
+* Update(github) Update github workflows by @thePanz in #292
+* php8.3 in the party by @connorhu in #294
+* Fix(php-cs-fixer) Fix php-cs-fixer to v3.45 and apply code fixes by @thePanz in #300
+* 8.3 compat/string to array by @iricketson in #298
+* Fix APC tests and add APCu support by @mentalstring in #267
+* [8.x Compatiblity] sfDebug::shortenFilePath by @iricketson in #299
+* Fix strpos() deprecation on sfCacheSessionStorage check for cookie by @thePanz in #303
+* Fix setrawcookie() deprecation on null parameter by @thePanz in #304
+* Fix str_replace() deprecated null parameter on sfNumberFormat by @thePanz in #305
+* [PHP] Replace default $flags variable with 0 by @iricketson in #307
+* [PHP8] Declare sfDoctrineFormGenerator $params property by @iricketson in #306
+* Update README by @mentalstring in #310
+* minor fix: remove fourth argument by @connorhu in #308
+* Fix PHP8.1 sfForm - Unsupported operand types: array + null on sfForm by @Tybaze in #281
+* Fix link to GitHub pipeline badge by @thePanz in #311
+* fix(phpdoc) remove html code from throws phpdoc. phpstan don't like this by @connorhu in #309
+* fix(phpdoc) remove version tag by @connorhu in #313
+
+12/01/2023: Version 1.5.15
+--------------------------
+
+* Add support for PHP 8.2 by @thirsch in #274
+* More adjustments for PHP 8.0 & 8.1 by @thirsch in #272
+
+25/11/2022: Version 1.5.14
+--------------------------
+
+* Update composer.json to automatically remove lexpress/symfony1 package by @spirit-q2 in #241
+* Updated lexpress to fos1 in the submodules. by @thirsch in #238
+* Compat for Swiftmailer 6 but preserve compatibility with Swiftmailer 5. by @thirsch in #240
+* Update PHPDoc for `sfWebController::redirect()` func by @cmdeviant in #246
+* Fixing Issue #234 by @pathumhdes in #235
+* Add consistent local environment for testing with docker and docker-compose by @alquerci in #262
+* Use GitHub actions for Continuous Integration tests by @thePanz in #268
+* Add support for PHP 8.0 & 8.1 by @Tybaze in #266
+
+08/06/2020: Version 1.5.13
+--------------------------
+
+* Fix for `Warning: ini_set(): A session is active...` #229
+* Php 7.4 Incompatibility Fixes #228
+* Remove notice appeared on php 7.4 #230
+* Rename package to `friendsofsymfony1/symfony1` #231
+
+03/04/2020: Version 1.5.12
+--------------------------
+
+* Move project from @LExpress to @FriendsOfSymfony1
+* Some doc & readme update
+* Fixes for PHP 7.3 & 7.4 (thanks @W0rma for the code and @alquerci for the review) #224
+* Backport fix for cve-2019-18888 by @adrienperonnet #218
+
+17/03/2018: Version 1.5.11
+--------------------------
+
+* Fix a bug in the lime unit-testing lib #168
+* Fix error 'A non well formed numeric value' on sfValidatorFile #181
+* Fix usage of octet in recent patch #182
+* Allow PATCH as an option in functional tests #185
+* Fix case for isSubclassOf method #189
+* Remove typehint from exception handler #188
+* Fix counting of non-countable var for PHP 7.2 #178
+
+02/08/2017: Version 1.5.10
+--------------------------
+
+* Add support of Throwables #144
+* Fixed return type in PHPDoc #151
+* Fix `sfEventLogger`: add priority and event.name overriding #160
+* Don't try to autoload a trait if it's already been declared #162
+* Fix/php 7.2 deprecation warnings #163
+
+09/02/2017: Version 1.5.9
+-------------------------
+
+* Fix notice in sfValidatorSchema::getBytes" PHP 7.1 #148
+* Fix dumpArray() for PHP 7.1 #146
+* Fix some bugs with new PHP versions #143
+* Fix yaml dumpArray() for PHP 7.1 #142
+
+06/10/2016: Version 1.5.8
+-------------------------
+
+* PHP7 compatibility by @timmipetit #121
+* sfMemcacheCache fix #124
+* sfAutoload include fix for HHVM support #127
+* sfAutoload include: eval only if forced on HHVM #130
+* Fix phpdoc for sfDoctrineRecord::setDateTimeObject() #136
+* Fix session data losing under certain situation #139
+
 02/02/2016: Version 1.5.7
 -------------------------
 
